@@ -45,5 +45,25 @@ class JoblyApi {
     return res.company;
   }
 
-  // obviously, you'll add a lot here ...
+    // Individual API routes
+
+  /** Get details on a company by handle. 
+   * accepts searchFilters as object / converts to string
+  */
+  static async getCompanies(searchFilters) {
+
+    let queryString="";
+
+    for(let filter in searchFilters){
+      queryString += `${filter}=${searchFilters[filter]}&`
+    }
+
+    queryString=queryString.slice(0,queryString.length-1)
+
+    const res = await this.request(`companies?${queryString}`);
+    return res.company;
+  }
 }
+
+
+export default JoblyApi;

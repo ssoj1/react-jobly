@@ -12,16 +12,16 @@ import { NavLink } from "react-router-dom";
  */
 function Navigation() {
   console.log("* Navigation");
-
+  //active link css 
   return (
     <nav className="Navigation">
-        <NavLink exact to={"/"} >
+        <NavLink exact to="/" >
           Jobly
         </NavLink>
-        <NavLink exact to={"/companies"} >
+        <NavLink exact to="/companies" >
           Companies
         </NavLink>
-        <NavLink exact to={"/jobs"} >
+        <NavLink exact to="/jobs" >
           Jobs
         </NavLink>
     </nav>
