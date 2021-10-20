@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import CompanyCard from "./CompanyCard";
+import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
 
 /** Renders a list of companies
@@ -15,7 +16,7 @@ import JoblyApi from "./api";
  * Routes -> CompanyList -> {CompanyCard, SearchForm}
  */
  function CompanyList(){
-    const[isLoading,setIsLoading]=useState(false);
+    const[isLoading,setIsLoading]=useState(true);
     const[searchTerm,setSearchTerm]=useState({});
     const[companies,setCompanies]=useState([]);
     console.log("* CompanyList ", { isLoading, searchTerm, companies });
@@ -35,18 +36,22 @@ import JoblyApi from "./api";
     useEffect(function fetchCompaniesWhenMounted(){
         async function fetchCompanies(){
             const companiesResult = await JoblyApi.getCompanies(searchTerm);
-            setCompanies(companiesResult.data.companies)
+            console.log({companiesResult})
+            setCompanies(companiesResult);
             setIsLoading(false);
         }
         fetchCompanies();
     },[searchTerm]);
 
+    console.log("companies are ", companies)
     if (isLoading) return <i>Loading...</i>; 
 
     return (
         <div>
-            {/* <SearchForm handleSubmit={}/> */}
-             {companies.map(company=><CompanyCard companyData={company}/>)}
+            {<SearchForm updateSearchTerm={updateSearchTerm} searchingBy="name" />}
+            {companies.map(company=><CompanyCard 
+                companyData={company} 
+                key={company.handle}/>)}
         </div>
     );
 

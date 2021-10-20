@@ -27,6 +27,7 @@ class JoblyApi {
         ? data
         : {};
 
+        console.log({url, data, params, headers, method })
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
@@ -45,25 +46,15 @@ class JoblyApi {
     return res.company;
   }
 
-    // Individual API routes
-
   /** Get details on a company by handle. 
    * accepts searchFilters as object / converts to string
   */
   static async getCompanies(searchFilters) {
+    console.log("searchFilters is ", searchFilters)
 
-    let queryString="";
-
-    for(let filter in searchFilters){
-      queryString += `${filter}=${searchFilters[filter]}&`
-    }
-
-    queryString=queryString.slice(0,queryString.length-1)
-
-    const res = await this.request(`companies?${queryString}`);
-    return res.company;
+    const res = await this.request(`companies`, searchFilters);
+    return res.companies;
   }
 }
-
 
 export default JoblyApi;
