@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import JobCardList from "./JobCardList"
+import JobCardList from "./JobCardList";
 import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
 
@@ -28,7 +28,6 @@ function JobList() {
         setIsLoading(true);
     };
 
-
     useEffect(function fetchJobsWhenMounted() {
         async function fetchJobs() {
             const jobsResult = await JoblyApi.getJobs(searchTerm);
@@ -49,6 +48,6 @@ function JobList() {
         </div>
     );
 
-}
+};
 
 export default JobList;

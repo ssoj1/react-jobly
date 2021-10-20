@@ -18,7 +18,7 @@
         <p>Salary: {job.salary}</p>
         <p>Equity: {job.equity}</p>
     </div>
-    )
+    );
 };
 
 export default JobCard;

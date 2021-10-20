@@ -16,9 +16,9 @@ import JoblyApi from "./api";
  * Routes -> CompanyList -> {CompanyCard, SearchForm}
  */
  function CompanyList(){
-    const[isLoading,setIsLoading]=useState(true);
-    const[searchTerm,setSearchTerm]=useState({});
-    const[companies,setCompanies]=useState([]);
+    const[isLoading,setIsLoading] = useState(true);
+    const[searchTerm,setSearchTerm] = useState({});
+    const[companies,setCompanies] = useState([]);
     console.log("* CompanyList ", { isLoading, searchTerm, companies });
 
 
@@ -38,7 +38,6 @@ import JoblyApi from "./api";
         fetchCompanies();
     },[searchTerm]);
 
-    console.log("companies are ", companies)
     if (isLoading) return <i>Loading...</i>; 
 
     return (

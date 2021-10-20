@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./SearchForm.css";
 
 /** Form for searching.
  *
@@ -11,8 +12,6 @@ import { useState } from "react";
  * 
  * { JobList, CompanyList } -> SearchForm
  */
-
-
 function SearchForm( { updateSearchTerm, searchingBy } ) {
     const [formData, setFormData] = useState({});
     console.log("* SearchForm ", {updateSearchTerm, searchingBy });
@@ -31,7 +30,7 @@ function SearchForm( { updateSearchTerm, searchingBy } ) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
     updateSearchTerm(formData);
-    setFormData({});
+    setFormData(formData.name); // TO DO: ask why form is being cleared
   }
 
   return (
@@ -43,7 +42,7 @@ function SearchForm( { updateSearchTerm, searchingBy } ) {
               name={searchingBy}
               className="form-control"
               onChange={handleChange}
-              value={formData.term}
+              value={formData.searchingBy}
               aria-label="Search Term"
           />
         </div>

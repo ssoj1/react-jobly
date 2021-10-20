@@ -1,4 +1,5 @@
 import JobCard from "./JobCard";
+
 /** Renders a list of jobcards
  * 
  * Props: 
@@ -16,7 +17,7 @@ import JobCard from "./JobCard";
     <div className="JobCardList">
         {jobs.map(job => <JobCard key={job.id} job={job}/>)}
     </div>
-    )
+    );
 };
 
 export default JobCardList;

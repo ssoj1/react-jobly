@@ -12,6 +12,8 @@ import { BrowserRouter } from "react-router-dom";
  * App => {Navigation, Routes}
  */
 function App() {
+  console.log("* App");
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -20,6 +22,6 @@ function App() {
       </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;

@@ -46,21 +46,20 @@ class JoblyApi {
     return res.company;
   }
 
-  /** Get all companies. 
-   * accepts searchFilters as object
-  */
-  static async getCompanies(searchFilters) {
-    console.log("searchFilters in companies is ", searchFilters)
+  /** Get all companies, accepts searchFilters as object */
 
+  static async getCompanies(searchFilters) { // accept a string
+    console.log("searchFilters in companies is ", searchFilters);
+
+    // make the object {name: string}
     const res = await this.request(`companies`, searchFilters);
     return res.companies;
   }
 
-  /** Get all jobs
- * accepts searchFilters as object
-*/
+  /** Get all jobs, accepts searchFilters as object */
+
   static async getJobs(searchFilters) {
-    console.log("searchFilters in jobs is ", searchFilters)
+    console.log("searchFilters in jobs is ", searchFilters);
 
     const res = await this.request(`jobs`, searchFilters);
     return res.jobs;

@@ -34,6 +34,6 @@ import CompanyList from "./CompanyList";
           <Redirect to="/" />
       </Switch>
     );
-  }
+  };
   
   export default Routes;

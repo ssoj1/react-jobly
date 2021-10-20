@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
-import "./Navigation.css"
+import "./Navigation.css"; 
+
 /** Component for navigating
  *
  * Props:
@@ -12,7 +13,7 @@ import "./Navigation.css"
  */
 function Navigation() {
   console.log("* Navigation");
-  //active link css 
+
   return (
     <nav className="Navigation">
         <NavLink exact to="/" >

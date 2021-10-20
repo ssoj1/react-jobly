@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-
 /** Renders a list of companies
  * 
  * Props: 
@@ -13,8 +12,10 @@ import { Link } from "react-router-dom";
  */
  function CompanyCard({company}){
     console.log("* CompanyCard", company);
+
     const logoNumber = Math.floor(Math.random()*4)+1;
     const companyLogo = `/logo${logoNumber}.png`;
+    
     return (
     <div className="CompanyCard">
         <Link to={`/companies/${company.handle}`}>
@@ -25,7 +26,7 @@ import { Link } from "react-router-dom";
             <div className="CompanyCard-description">{company.description}</div>
         </Link>
     </div>
-    )
+    );
 };
 
 export default CompanyCard;

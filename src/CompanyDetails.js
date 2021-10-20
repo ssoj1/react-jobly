@@ -17,6 +17,7 @@ import JobCardList from "./JobCardList";
 function CompanyDetails(){
     const [ isLoading, setIsLoading] = useState(true);
     const [ company, setCompany ] = useState({});
+    console.log("* ComanyDetails");
 
     const { handle } = useParams();
 
@@ -27,7 +28,7 @@ function CompanyDetails(){
             setIsLoading(false);
         }
         fetchCompany();
-    }, []);
+    }, [handle]);
 
     if (isLoading) return <i>Loading...</i>; 
 
