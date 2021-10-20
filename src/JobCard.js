@@ -2,12 +2,12 @@
 /** Renders a single job
  * 
  * Props: 
- * - job
+ * - job -> obj of data on job
  * 
  * State: 
  *- none
  * 
- * Routes -> CompanyList -> CompanyCard
+ * JobCardList -> JobCard
  */
  function JobCard({job}){
     console.log("* JobCard", {job});

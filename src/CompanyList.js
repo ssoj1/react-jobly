@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import CompanyCard from "./CompanyCard";
+import CompanyCardList from "./CompanyCardList";
 import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
 
@@ -21,11 +21,6 @@ import JoblyApi from "./api";
     const[companies,setCompanies]=useState([]);
     console.log("* CompanyList ", { isLoading, searchTerm, companies });
 
-    // need to make axios request to get list of all companies
-    // when we are loading we will just show loading briefly
-    // but then we will render search form + list of comapnies
-
-    //define fxn here for form submission: set searchTerm to form Data
 
     /** Updates searchTerm based on form submission */
     function updateSearchTerm( searchTerm ){
@@ -49,9 +44,7 @@ import JoblyApi from "./api";
     return (
         <div>
             {<SearchForm updateSearchTerm={updateSearchTerm} searchingBy="name" />}
-            {companies.map(company=><CompanyCard 
-                companyData={company} 
-                key={company.handle}/>)}
+            {<CompanyCardList companies={companies}/>}
         </div>
     );
 

@@ -24,10 +24,10 @@ class JoblyApi {
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
     const params = (method === "get")
-        ? data
-        : {};
+      ? data
+      : {};
 
-        console.log({url, data, params, headers, method })
+    console.log({ url, data, params, headers, method })
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
@@ -46,14 +46,24 @@ class JoblyApi {
     return res.company;
   }
 
-  /** Get details on a company by handle. 
-   * accepts searchFilters as object / converts to string
+  /** Get all companies. 
+   * accepts searchFilters as object
   */
   static async getCompanies(searchFilters) {
-    console.log("searchFilters is ", searchFilters)
+    console.log("searchFilters in companies is ", searchFilters)
 
     const res = await this.request(`companies`, searchFilters);
     return res.companies;
+  }
+
+  /** Get all jobs
+ * accepts searchFilters as object
+*/
+  static async getJobs(searchFilters) {
+    console.log("searchFilters in jobs is ", searchFilters)
+
+    const res = await this.request(`jobs`, searchFilters);
+    return res.jobs;
   }
 }
 

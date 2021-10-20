@@ -1,3 +1,8 @@
+import { useState, useEffect } from "react";
+import JobCardList from "./JobCardList"
+import SearchForm from "./SearchForm";
+import JoblyApi from "./api";
+
 /** Renders a list of jobs
  * 
  * Props: 
@@ -7,12 +12,43 @@
  * - isLoading
  * - searchTerm
  * - jobs - an array of objects like: 
- * [{ TODO }]
+ * [{ job }, {job},...]
  * 
- * Routes -> JobList -> {SearchForm, JobCardList}
+ * Routes -> JobList -> {SearchForm, JobCard}
  */
- function JobList(){
-    return <div>You're on the job list page!</div>
+function JobList() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState({});
+    const [jobs, setJobs] = useState([]);
+    console.log("* JobList ", { isLoading, searchTerm, jobs });
+
+    /** Updates searchTerm based on form submission */
+    function updateSearchTerm(searchTerm) {
+        setSearchTerm(searchTerm);
+        setIsLoading(true);
+    };
+
+
+    useEffect(function fetchJobsWhenMounted() {
+        async function fetchJobs() {
+            const jobsResult = await JoblyApi.getJobs(searchTerm);
+            console.log({ jobsResult })
+            setJobs(jobsResult);
+            setIsLoading(false);
+        }
+        fetchJobs();
+    }, [searchTerm]);
+
+    console.log("jobs are ", jobs)
+    if (isLoading) return <i>Loading...</i>;
+
+    return (
+        <div>
+            {<SearchForm updateSearchTerm={updateSearchTerm} searchingBy="title" />}
+            <JobCardList jobs={jobs}/>
+        </div>
+    );
+
 }
 
 export default JobList;

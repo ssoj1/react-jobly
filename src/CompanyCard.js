@@ -1,5 +1,5 @@
-import {useState} from "react"
 import { Link } from "react-router-dom";
+
 
 /** Renders a list of companies
  * 
@@ -11,17 +11,18 @@ import { Link } from "react-router-dom";
  * 
  * Routes -> CompanyList -> CompanyCard
  */
- function CompanyCard({companyData}){
-    console.log("* CompanyCard", companyData);
-
+ function CompanyCard({company}){
+    console.log("* CompanyCard", company);
+    const logoNumber = Math.floor(Math.random()*4)+1;
+    const companyLogo = `/logo${logoNumber}.png`;
     return (
     <div className="CompanyCard">
-        <Link to={`/companies/${companyData.handle}`}>
-            <div className="CompanyCard-name">{companyData.name}</div>
+        <Link to={`/companies/${company.handle}`}>
+            <div className="CompanyCard-name">{company.name}</div>
             <img className="CompanyCard-img" 
-                src={companyData.logoUrl} 
-                alt={`${companyData.name} logo`}></img>
-            <div className="CompanyCard-description">{companyData.description}</div>
+                src={companyLogo} 
+                alt={`${company.name} logo`}></img>
+            <div className="CompanyCard-description">{company.description}</div>
         </Link>
     </div>
     )

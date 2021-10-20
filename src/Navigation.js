@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-
+import "./Navigation.css"
 /** Component for navigating
  *
  * Props:
@@ -8,7 +8,7 @@ import { NavLink } from "react-router-dom";
  * State:
  * - none
  *
- * App -> Navigation
+ * App -> Navigation -> NavLink
  */
 function Navigation() {
   console.log("* Navigation");

@@ -1,0 +1,15 @@
+.Navigation{
+    background-color: blue;
+
+}
+.Navigation a{
+    color:white;
+    margin:5vw;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.Navigation a.active{
+    color: white;
+    background-color: gray;
+}
