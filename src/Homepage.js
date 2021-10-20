@@ -1,3 +1,5 @@
+import "./Homepage.css";
+
 /** Renders the homepage
  * 
  * Props: 
@@ -12,9 +14,11 @@
     console.log("* Homepage");
 
     return (
-        <div className="Homepage">
-            <h1 className="Homepage-header">Jobly</h1>
-            <p className="Homepage-tagline">All the jobs in one convenient place!</p>
+        <div className="row min-vh-100 align-items-center">
+            <div className="Homepage">
+                <h1 className="Homepage-header">Jobly</h1>
+                <p className="Homepage-tagline">All the jobs in one convenient place!</p>
+            </div>
         </div>
     );
 };

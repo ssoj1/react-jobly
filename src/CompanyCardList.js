@@ -15,7 +15,14 @@ import CompanyCard from "./CompanyCard";
 
     return (
     <div className="CompanyCardList">
-        {companies.map(company => <CompanyCard key={company.handle} company={company}/>)}
+        {
+            companies.length === 0
+            ? <p>No results found.</p>
+            : companies.map(company => <CompanyCard 
+                key={company.handle} 
+                company={company}
+            />)
+        }
     </div>
     );
 };

@@ -5,16 +5,15 @@ import "./SearchForm.css";
  *
  * Props:
  * - updateSearchTerm - function to call on parent
- * - searchingBy
  *
  * State:
  * - formData: { searchCriteria }
  * 
  * { JobList, CompanyList } -> SearchForm
  */
-function SearchForm( { updateSearchTerm, searchingBy } ) {
-    const [formData, setFormData] = useState({});
-    console.log("* SearchForm ", {updateSearchTerm, searchingBy });
+function SearchForm( { updateSearchTerm } ) {
+    const [formData, setFormData] = useState({ term: ""});
+    console.log("* SearchForm ", {updateSearchTerm, formData });
 
   /** Update form input. */
   function handleChange(evt) { 
@@ -30,19 +29,19 @@ function SearchForm( { updateSearchTerm, searchingBy } ) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
     updateSearchTerm(formData);
-    setFormData(formData.name); // TO DO: ask why form is being cleared
   }
 
   return (
-      <form className="SearchForm" onSubmit={handleSubmit}>
+    <div className="row justify-content-center pt-3">
+      <form className="SearchForm col-8" onSubmit={handleSubmit}>
 
         <div className="form-group">
           <input
               id="SearchForm-term"
-              name={searchingBy}
+              name="term"
               className="form-control"
               onChange={handleChange}
-              value={formData.searchingBy}
+              value={formData.term}
               aria-label="Search Term"
           />
         </div>
@@ -53,6 +52,7 @@ function SearchForm( { updateSearchTerm, searchingBy } ) {
         </div>
 
       </form>
+    </div>
   );
 }
 

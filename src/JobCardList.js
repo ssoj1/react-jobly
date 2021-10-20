@@ -15,7 +15,12 @@ import JobCard from "./JobCard";
 
     return (
     <div className="JobCardList">
-        {jobs.map(job => <JobCard key={job.id} job={job}/>)}
+        { 
+            jobs.length === 0
+            ? <p>No results found.</p>
+            : jobs.map(job => <JobCard key={job.id} job={job}/>)
+        }
+        
     </div>
     );
 };

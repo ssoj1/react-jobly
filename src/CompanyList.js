@@ -30,7 +30,7 @@ import JoblyApi from "./api";
 
     useEffect(function fetchCompaniesWhenMounted(){
         async function fetchCompanies(){
-            const companiesResult = await JoblyApi.getCompanies(searchTerm);
+            const companiesResult = await JoblyApi.getCompanies(searchTerm.term);
             console.log({companiesResult})
             setCompanies(companiesResult);
             setIsLoading(false);

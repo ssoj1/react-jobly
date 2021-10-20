@@ -15,17 +15,25 @@ function Navigation() {
   console.log("* Navigation");
 
   return (
-    <nav className="Navigation">
-        <NavLink exact to="/" >
-          Jobly
-        </NavLink>
-        <NavLink exact to="/companies" >
-          Companies
-        </NavLink>
-        <NavLink exact to="/jobs" >
-          Jobs
-        </NavLink>
-    </nav>
+    <div className="row">
+      <nav className="Navigation bg-primary d-flex">
+        <div className="mr-auto p-2">
+          <NavLink exact to="/" >
+            Jobly
+          </NavLink>
+        </div>
+        <div className="p-2">
+          <NavLink exact to="/companies" >
+            Companies
+          </NavLink>
+        </div>
+        <div className="p-2">
+          <NavLink exact to="/jobs" >
+            Jobs
+          </NavLink>
+        </div>
+      </nav>
+    </div>
   );
 }
 

@@ -46,22 +46,31 @@ class JoblyApi {
     return res.company;
   }
 
-  /** Get all companies, accepts searchFilters as object */
+  /** Get all companies, accepts search filters as a string */
 
-  static async getCompanies(searchFilters) { // accept a string
+  static async getCompanies(searchFilters) { 
     console.log("searchFilters in companies is ", searchFilters);
 
-    // make the object {name: string}
-    const res = await this.request(`companies`, searchFilters);
+    let searchData = {};
+    if ( searchFilters !== "" ) {
+      searchData = { name: searchFilters };
+    };
+
+    const res = await this.request(`companies`, searchData);
     return res.companies;
   }
 
-  /** Get all jobs, accepts searchFilters as object */
+  /** Get all jobs, accepts search filters as a string */
 
   static async getJobs(searchFilters) {
     console.log("searchFilters in jobs is ", searchFilters);
 
-    const res = await this.request(`jobs`, searchFilters);
+    let searchData = {};
+    if ( searchFilters !== "" ) {
+      searchData = { title: searchFilters }; 
+    };
+
+    const res = await this.request(`jobs`, searchData);
     return res.jobs;
   }
 }

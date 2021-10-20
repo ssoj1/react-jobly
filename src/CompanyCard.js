@@ -17,14 +17,17 @@ import { Link } from "react-router-dom";
     const companyLogo = `/logo${logoNumber}.png`;
     
     return (
-    <div className="CompanyCard">
-        <Link to={`/companies/${company.handle}`}>
-            <div className="CompanyCard-name">{company.name}</div>
-            <img className="CompanyCard-img" 
-                src={companyLogo} 
-                alt={`${company.name} logo`}></img>
-            <div className="CompanyCard-description">{company.description}</div>
-        </Link>
+    <div className="row justify-content-center">
+        <div className="CompanyCard m-2 bg-white col-8">
+            <Link to={`/companies/${company.handle}`} 
+                    className="text-decoration-none text-dark">
+                <div className="CompanyCard-name">{company.name}</div>
+                <img className="CompanyCard-img" 
+                    src={companyLogo} 
+                    alt={`${company.name} logo`}></img>
+                <div className="CompanyCard-description">{company.description}</div>
+            </Link>
+        </div>
     </div>
     );
 };

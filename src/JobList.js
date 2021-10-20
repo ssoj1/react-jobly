@@ -18,7 +18,7 @@ import JoblyApi from "./api";
  */
 function JobList() {
     const [isLoading, setIsLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState({});
+    const [searchTerm, setSearchTerm] = useState({ title: ""});
     const [jobs, setJobs] = useState([]);
     console.log("* JobList ", { isLoading, searchTerm, jobs });
 
@@ -30,7 +30,7 @@ function JobList() {
 
     useEffect(function fetchJobsWhenMounted() {
         async function fetchJobs() {
-            const jobsResult = await JoblyApi.getJobs(searchTerm);
+            const jobsResult = await JoblyApi.getJobs(searchTerm.term);
             console.log({ jobsResult })
             setJobs(jobsResult);
             setIsLoading(false);
@@ -38,13 +38,17 @@ function JobList() {
         fetchJobs();
     }, [searchTerm]);
 
-    console.log("jobs are ", jobs)
-    if (isLoading) return <i>Loading...</i>;
-
     return (
         <div>
-            {<SearchForm updateSearchTerm={updateSearchTerm} searchingBy="title" />}
-            <JobCardList jobs={jobs}/>
+            {<SearchForm 
+                updateSearchTerm={updateSearchTerm} 
+                searchingBy="title" />
+            }
+            {
+                isLoading 
+                ? <i>Loading...</i>
+                : <JobCardList jobs={jobs}/>
+            }
         </div>
     );
 
