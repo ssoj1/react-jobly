@@ -84,7 +84,8 @@ class JoblyApi {
     }; 
     
     try {
-      const res = await this.request('/auth/token', credentials, 'post');
+      const res = await this.request('auth/token', credentials, 'post');
+      console.log("response in check user", res);
       return res;
     } 
     catch(err) {
@@ -93,9 +94,18 @@ class JoblyApi {
   }
   
   static async updateUser(userData) {
+
+    const userDataWithoutAdmin = {
+      firstName:userData.firstName,
+      lastName:userData.lastName,
+      email:userData.email,
+      password:userData.password
+    }
+
     try {
-      const res = await this.request(`/users/${userData.username}`, 
-      userData, 'patch');
+      const res = await this.request(`users/${userData.username}`, 
+      userDataWithoutAdmin, 'patch');
+
       return res;
     } 
     catch(err) {

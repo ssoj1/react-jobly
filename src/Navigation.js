@@ -38,6 +38,11 @@ function Navigation() {
             Jobs
           </NavLink>
         </div>
+        <div className="p-2">
+          <NavLink exact to="/profile" >
+            Profile
+          </NavLink>
+        </div>
       </nav>
     </div>
   );

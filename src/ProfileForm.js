@@ -18,11 +18,14 @@ import { Redirect } from "react-router-dom";
  * Routes -> ProfileForm
  * 
  */
- function ProfileForm( { handleEdit }){
+ function ProfileForm( { handleEdit, messageForForm}){
    const userData = useContext(UserContext);
    
-   const [formData, setFormData] = useState(userData);
-   const [message, setMessage] = useState(null);
+   const [formData, setFormData] = useState({
+    ...userData,
+    "password": "",
+});
+   const [message, setMessage] = useState(messageForForm);
    
    console.log("* ProfileForm ", { handleEdit, formData });
 
@@ -62,6 +65,7 @@ import { Redirect } from "react-router-dom";
               onChange={handleChange}
               value={formData.username}
               aria-label="Username"
+              disabled
           />
         </div>
         <div className="form-group">
@@ -117,7 +121,7 @@ import { Redirect } from "react-router-dom";
           />
         </div>
         { message 
-        ? <Alert message={message} />
+        ? <Alert message={messageForForm} />
         : null
         }
         <div>
