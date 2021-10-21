@@ -14,6 +14,12 @@ import "./Navigation.css";
 function Navigation() {
   console.log("* Navigation");
 
+
+  //has a ternary taht shows you diff links if 
+  //logged in (companies,jobs, logout{name})
+  // -- log out btn has event listener to log out user?
+  //vs not(sign in / sign up) 
+
   return (
     <div className="row">
       <nav className="Navigation bg-primary d-flex">

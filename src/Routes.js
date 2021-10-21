@@ -16,13 +16,20 @@ import CompanyList from "./CompanyList";
  */
  function Routes() {
     console.log("* Routes");
-
+    // add slash profile, login, and signup
+    // profile component => profile form
+    //      takes form data updates user if valid
+    // login component => login form
+    //      takes form data and authenticates
+    // signup component => signup form
+    //      take form data, check if user exists/data valid, sign up
     return (
       <Switch>
           <Route exact path="/">
             <Homepage />
           </Route>
           <Route exact path="/companies/:handle">
+            {/* {loggedIn? <CompanyDetails />: Redirect(to'/") } */}
             <CompanyDetails />
           </Route>
           <Route exact path="/jobs">
