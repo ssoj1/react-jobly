@@ -17,7 +17,7 @@ import LoginForm from "./LoginForm";
  * 
  * App -> Routes -> { Homepage, CompanyDetails, JobList, CompanyList}
  */
- function Routes() {
+ function Routes({ handleSignUp, handleLogin, handleEdit }) {
     console.log("* Routes");
     // add slash profile, login, and signup
     // profile component => profile form
@@ -42,13 +42,13 @@ import LoginForm from "./LoginForm";
             <CompanyList />
           </Route>
           <Route exact path="/login">
-            <LoginForm />
+            <LoginForm handleLogin={handleLogin} />
           </Route>
           <Route exact path="/signup">
-            <SignUpForm />
+            <SignUpForm handleSignUp={handleSignUp} />
           </Route>
           <Route exact path="/profile">
-            <ProfileForm />
+            <ProfileForm handleEdit={handleEdit} />
           </Route>
           <Redirect to="/" />
       </Switch>

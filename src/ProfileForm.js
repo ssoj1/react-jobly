@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import UserContext from "./userContext";
 import Alert from "./Alert";
+import { Redirect } from "react-router-dom";
 
 /** Form for editing profile information
  * 
@@ -18,13 +19,16 @@ import Alert from "./Alert";
  * 
  */
  function ProfileForm( { handleEdit }){
-    const [formData, setFormData] = useState({});
-    const [message, setMessage] = useState(null);
+   const userData = useContext(UserContext);
+   
+   const [formData, setFormData] = useState(userData);
+   const [message, setMessage] = useState(null);
+   
+   console.log("* ProfileForm ", { handleEdit, formData });
 
-    console.log("* ProfileForm ", { handleEdit, formData });
-
-    const userData = useContext(UserContext);
-
+  if(Object.keys(userData).length === 0){
+    return <Redirect to="/"/>
+  }
 
   /** Update form input. */
   function handleChange(evt) { 
@@ -44,55 +48,71 @@ import Alert from "./Alert";
 
   return (
     <div className="row justify-content-center pt-3">
+      <h1>Profile</h1>
       <form className="ProfileForm col-8" onSubmit={handleSubmit}>
 
         <div className="form-group">
+        <label htmlFor="ProfileForm-username">
+            Username
+          </label>
           <input
               id="ProfileForm-username"
               name="username"
               className="form-control"
               onChange={handleChange}
-              value={userData.username}
+              value={formData.username}
               aria-label="Username"
           />
         </div>
         <div className="form-group">
+        <label htmlFor="ProfileForm-firstName">
+            First Name
+          </label>
           <input
               id="ProfileForm-firstName"
               name="firstName"
               className="form-control"
               onChange={handleChange}
-              value={userData.firstName}
+              value={formData.firstName}
               aria-label="First Name"
           />
         </div>
         <div className="form-group">
+        <label htmlFor="ProfileForm-lastName">
+            Last Name
+          </label>
           <input
               id="ProfileForm-lastName"
               name="lastName"
               className="form-control"
               onChange={handleChange}
-              value={userData.lastName}
+              value={formData.lastName}
               aria-label="Last Name"
           />
         </div>
         <div className="form-group">
+        <label htmlFor="ProfileForm-email">
+            Email
+          </label>
           <input
               id="ProfileForm-email"
               name="email"
               className="form-control"
               onChange={handleChange}
-              value={userData.email}
+              value={formData.email}
               aria-label="Email"
           />
         </div>
         <div className="form-group">
+        <label htmlFor="ProfileForm-password">
+            Password
+          </label>
           <input type="password"
               id="ProfileForm-password"
               name="password"
               className="form-control"
               onChange={handleChange}
-              value={userData.password}
+              value={formData.password}
               aria-label="Confirm password to save changes:"
           />
         </div>

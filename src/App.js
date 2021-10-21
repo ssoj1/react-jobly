@@ -1,10 +1,10 @@
 import './App.css';
 import Navigation from './Navigation';
 import Routes from './Routes';
-import { BrowserRouter,Redirect } from "react-router-dom";
+import { BrowserRouter, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import JoblyApi from './api';
-import {useState, useContext} from "react"
+import {useState, useContext, useEffect} from "react"
 import UserContext from './userContext';
 
 /**
@@ -18,10 +18,10 @@ import UserContext from './userContext';
 function App() {
   const [userData, setUserData] = useState({});
   const [token, setToken] = useState("");
+  const [redirectRequired, setRedirectRequired] = useState(false);
+  const [messageForForm, setMessageForForm] = useState("");
 
   console.log("* App");
-
-
 
   /** Accepts ProfileForm data, validates password. If valid updates
    * userData. Returns message.
@@ -33,41 +33,72 @@ function App() {
         setUserData(response.user);
         return "Updated successfully";
       } else {
-        return response; // which will be an error message
+        setMessageForForm(response); // which will be an error message
       }; 
   }
 
+  /** */
   async function handleLogin(username,password){
-    
-    const response = await JoblyApi.checkUserCredentials(username,password); 
+    const response = await JoblyApi.checkUserCredentials(username,password);
+
       if ( response.token !== undefined ) {
-        const userResponse = await JoblyApi.getUser(username);
         setToken(response.token);
-        setUserData(userResponse);
-        return (
-          <Redirect push to="/"/>
-        );
+        setRedirectRequired(true);
       } else {
-        return response; // which will be an error message
+        setMessageForForm(response); // which will be an error message
       }; 
   }
 
+  /** */
+  async function handleSignUp(userData) {
+    const response = await JoblyApi.registerUser(userData);
+    console.log(" response is " , response );
+
+    if ( response.token !== undefined ) {
+      setToken(response.token);
+      setRedirectRequired(true);
+    } else {
+      setMessageForForm(response); // which will be an error message
+   }; 
+  }
 
 
+  useEffect(function updateUserDataOnTokenChange(){
+    console.log("in useEffect")
+    async function updateUserData(){
+      const userResponse = await JoblyApi.getUserByToken(token);
+      console.log(" userResponse ", userResponse)
+      setUserData(userResponse);
+      JoblyApi.token = token;
+    }
+    updateUserData();
+  },[token]);
 
-  //function created to handle submit of sign up AND log in forms
-  //once those are submitted in a valid way, update context for all
-  //the pieces to know there is a logged in user
-  // on re-render, navigation routes should now show 
+  // if (redirectRequired) {
+  //   return (
+
+  //   );
+  // }
 
   return (
     <div className="App bg-image container-fluid min-vh-100">
-      <BrowserRouter>
-        <Navigation />
-      <UserContext.Provider value={userData}>
-        <Routes handleEdit={handleEdit} handleLogin={handleLogin}/>
-      </UserContext.Provider>
-      </BrowserRouter>
+      {
+        redirectRequired && <Redirect push to="/" />
+      }
+      {
+        !redirectRequired && 
+
+        <BrowserRouter>
+          <Navigation />
+        <UserContext.Provider value={userData}>
+          <Routes 
+            handleEdit={handleEdit} 
+            handleLogin={handleLogin} 
+            handleSignUp={handleSignUp}
+            messageForForm={messageForForm} />
+        </UserContext.Provider>
+        </BrowserRouter>
+      }
     </div>
   );
 };
