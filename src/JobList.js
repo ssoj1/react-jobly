@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useContext,useEffect } from "react";
 import JobCardList from "./JobCardList";
 import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
+import {Redirect} from "react-router-dom";
+import UserContext from "./userContext";
 
 /** Renders a list of jobs
  * 
@@ -20,6 +22,7 @@ function JobList() {
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState({ title: ""});
     const [jobs, setJobs] = useState([]);
+    const userData = useContext(UserContext);
     console.log("* JobList ", { isLoading, searchTerm, jobs });
 
     /** Updates searchTerm based on form submission */
@@ -37,6 +40,11 @@ function JobList() {
         }
         fetchJobs();
     }, [searchTerm]);
+
+
+    if(Object.keys(userData).length === 0){
+        return <Redirect to="/"/>
+    }
 
     return (
         <div>

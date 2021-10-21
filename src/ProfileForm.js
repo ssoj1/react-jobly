@@ -18,10 +18,10 @@ import Alert from "./Alert";
  * 
  */
  function ProfileForm( { handleEdit }){
-    const [formData, setFormData] = useState({ term: ""});
+    const [formData, setFormData] = useState({});
     const [message, setMessage] = useState(null);
 
-    console.log("* SearchForm ", { handleEdit, formData });
+    console.log("* ProfileForm ", { handleEdit, formData });
 
     const userData = useContext(UserContext);
 

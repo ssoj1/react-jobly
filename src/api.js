@@ -46,6 +46,14 @@ class JoblyApi {
     return res.company;
   }
 
+  /** Get details on an individual user by username*/
+
+  static async getUser(username) {
+    let res = await this.request(`users/${username}`);
+    return res.user;
+  }
+
+
   /** Get all companies, accepts search filters as a string */
 
   static async getCompanies(searchFilters) { 
@@ -92,7 +100,14 @@ class JoblyApi {
   }
 
   static async updateUser(userData) {
-    
+    try {
+      const res = await this.request(`/users/${userData.username}}`, 
+                                    userData, 'patch');
+      return res;
+    } 
+    catch(err) {
+      return err.message;
+    }; 
 
   }
 
