@@ -3,6 +3,9 @@ import Homepage from "./Homepage";
 import CompanyDetails from "./CompanyDetails";
 import JobList from "./JobList";
 import CompanyList from "./CompanyList";
+import ProfileForm from "./ProfileForm";
+import SignUpForm from "./SignUpForm";
+import LoginForm from "./LoginForm";
 
 /** Routes for App
  * 
@@ -37,6 +40,15 @@ import CompanyList from "./CompanyList";
           </Route>
           <Route exact path="/companies">
             <CompanyList />
+          </Route>
+          <Route exact path="/login">
+            <LoginForm />
+          </Route>
+          <Route exact path="/signup">
+            <SignUpForm />
+          </Route>
+          <Route exact path="/profile">
+            <ProfileForm />
           </Route>
           <Redirect to="/" />
       </Switch>

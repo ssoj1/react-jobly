@@ -73,6 +73,29 @@ class JoblyApi {
     const res = await this.request(`jobs`, searchData);
     return res.jobs;
   }
+
+  /** Accepts username and password as strings, returns token or error message */
+
+  static async checkUserCredentials(username, password){
+    const credentials = {
+      username, 
+      password
+    }; 
+
+    try {
+      const res = await this.request('/auth/token', credentials, 'post');
+      return res;
+    } 
+    catch(err) {
+      return err.message;
+    }; 
+  }
+
+  static async updateUser(userData) {
+    
+
+  }
+
 }
 
 export default JoblyApi;
