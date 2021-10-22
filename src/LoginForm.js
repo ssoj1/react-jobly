@@ -7,10 +7,15 @@ import { Redirect } from "react-router-dom";
  * 
  */
 
-function LoginForm({ handleLogin, messageForForm }) {
+function LoginForm({ handleLogin }) {
 
-  const [formData, setFormData] = useState({});
-  const [message, setMessage] = useState(messageForForm);
+  const initialFormData = {
+    username: "", 
+    password: "",
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [message, setMessage] = useState(null);
   const [redirectRequired, setRedirectRequired] = useState(false);
 
   console.log("* LoginForm ", { handleLogin, formData });
@@ -28,13 +33,15 @@ function LoginForm({ handleLogin, messageForForm }) {
   }
 
   /** Call parent function and clear form. */
-  function handleSubmit(evt) {
+  async function handleSubmit(evt) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
-    handleLogin(formData.username, formData.password);
-    setMessage(messageForForm);
-    setRedirectRequired(true);
-
+    try {
+      await handleLogin(formData.username, formData.password);
+      setRedirectRequired(true);
+    } catch(err) {
+      setMessage(err);
+    };
   }
 
   return (
@@ -54,7 +61,7 @@ function LoginForm({ handleLogin, messageForForm }) {
               name="username"
               className="form-control"
               onChange={handleChange}
-              value={userData.username}
+              value={formData.username}
               aria-label="Username"
             />
           </div>
@@ -67,17 +74,14 @@ function LoginForm({ handleLogin, messageForForm }) {
               name="password"
               className="form-control"
               onChange={handleChange}
-              value={userData.password}
+              value={formData.password}
               aria-label="Password"
             />
           </div>
-          {message
-            ? <Alert message={messageForForm} />
-            : null
-          }
+          {message && <Alert message={message} /> }
           <div>
             <button className="btn-primary rig btn btn-sm ProfileForm-Button">
-              Save Changes
+              Log In
             </button>
           </div>
 

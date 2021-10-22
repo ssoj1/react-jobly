@@ -18,20 +18,20 @@ import { Redirect } from "react-router-dom";
  * Routes -> ProfileForm
  * 
  */
- function ProfileForm( { handleEdit, messageForForm}){
+ function ProfileForm( { handleEdit }){
    const userData = useContext(UserContext);
    
    const [formData, setFormData] = useState({
     ...userData,
     "password": "",
 });
-   const [message, setMessage] = useState(messageForForm);
+   const [message, setMessage] = useState(null);
    
    console.log("* ProfileForm ", { handleEdit, formData });
 
-  if(Object.keys(userData).length === 0){
+  if(userData.username === undefined){
     return <Redirect to="/"/>
-  }
+  };
 
   /** Update form input. */
   function handleChange(evt) { 
@@ -43,10 +43,15 @@ import { Redirect } from "react-router-dom";
   }
 
   /** Call parent function and clear form. */
-  function handleSubmit(evt) {
+  async function handleSubmit(evt) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
-    setMessage(handleEdit(formData));
+    try {
+     await handleEdit(formData);
+     setMessage("Updated successfully");
+    } catch(err) {
+      setMessage(err);
+    };
   }
 
   return (
@@ -120,10 +125,7 @@ import { Redirect } from "react-router-dom";
               aria-label="Confirm password to save changes:"
           />
         </div>
-        { message 
-        ? <Alert message={messageForForm} />
-        : null
-        }
+        { message && <Alert message={message} /> }
         <div>
           <button className="btn-primary rig btn btn-sm ProfileForm-Button">
             Save Changes

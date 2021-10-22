@@ -46,106 +46,89 @@ class JoblyApi {
     let res = await this.request(`companies/${handle}`);
     return res.company;
   }
-  
+
   /** Get all companies, accepts search filters as a string */
-  
-  static async getCompanies(searchFilters) { 
+
+  static async getCompanies(searchFilters) {
     console.log("searchFilters in companies is ", searchFilters);
-    
+
     let searchData = {};
-    if ( searchFilters !== "" ) {
+    if (searchFilters !== "") {
       searchData = { name: searchFilters };
     };
-    
+
     const res = await this.request(`companies`, searchData);
     return res.companies;
   }
-  
+
   /** Get all jobs, accepts search filters as a string */
-  
+
   static async getJobs(searchFilters) {
     console.log("searchFilters in jobs is ", searchFilters);
-    
+
     let searchData = {};
-    if ( searchFilters !== "" ) {
-      searchData = { title: searchFilters }; 
+    if (searchFilters !== "") {
+      searchData = { title: searchFilters };
     };
-    
+
     const res = await this.request(`jobs`, searchData);
     return res.jobs;
   }
-  
+
   /** Accepts username and password as strings, returns token or error message */
-  
-  static async checkUserCredentials(username, password){
+
+  static async checkUserCredentials(username, password) {
     const credentials = {
-      username, 
+      username,
       password
-    }; 
-    
-    try {
-      const res = await this.request('auth/token', credentials, 'post');
-      console.log("response in check user", res);
-      return res;
-    } 
-    catch(err) {
-      return err.message;
-    }; 
+    };
+
+    const res = await this.request('auth/token', credentials, 'post');
+    return res.token;
   }
-  
+
   static async updateUser(userData) {
 
     const userDataWithoutAdmin = {
-      firstName:userData.firstName,
-      lastName:userData.lastName,
-      email:userData.email,
-      password:userData.password
+      firstName: userData.firstName,
+      lastName: userData.lastName,
+      email: userData.email,
+      password: userData.password
     }
 
-    try {
-      const res = await this.request(`users/${userData.username}`, 
+    const res = await this.request(`users/${userData.username}`,
       userDataWithoutAdmin, 'patch');
+      console.log("in updateUser res is ", res )
 
-      return res;
-    } 
-    catch(err) {
-      return err.message;
-    }; 
-    
+    return res;
   }
-  
+
   static async getUserByToken(token) {
     const payload = jwt.decode(token);
-    console.log("payload is ", payload);
-    
-    try {
+
+    if (payload === null ) {
+      return null;
+    } else {
       const res = await this.request(`users/${payload.username}`);
       return res.user;
-    }
-    catch(err) {
-      return err.message;
     };
   }
-  
+
   /**  */
   static async registerUser(userData) {
     console.log("userData ", userData)
-    try {
-      const res = await this.request(`auth/register`, userData, 'post');
-      console.log(" res is ", res)
-      return res;
-    }
-    catch(err) {
-      return err.message;
-    };
+    
+    const res = await this.request(`auth/register`, userData, 'post');
+    return res;
+
   }
 
   /** Get details on an individual user by username*/
-  
-  static async getUser(username) {
-    let res = await this.request(`users/${username}`);
-    return res.user;
-  }
+
+  // static async getUser(username) {
+  //   let res = await this.request(`users/${username}`);
+  //   return res.user;
+  // }
 }
 
 export default JoblyApi;

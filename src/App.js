@@ -18,7 +18,6 @@ import UserContext from './userContext';
 function App() {
   const [userData, setUserData] = useState({});
   const [token, setToken] = useState("");
-  const [messageForForm, setMessageForForm] = useState("");
 
   console.log("* App");
 
@@ -27,50 +26,28 @@ function App() {
    */
   async function handleEdit(updatedProfileInfo) {
 
-    console.log("data with which we are updating", updatedProfileInfo)
     const response = await JoblyApi.updateUser(updatedProfileInfo);
-    console.log("resp after update user", response)
-    if (response.user !== undefined) {
-      setUserData(response.user);
-      return "Updated successfully";
-    } else {
-      setMessageForForm(response); // which will be an error message
-    };
+    return response.user;
   }
 
   /** */
   async function handleLogin(username, password) {
-    const response = await JoblyApi.checkUserCredentials(username, password);
-
-    if (response.token !== undefined) {
-      setToken(response.token);
-    } else {
-      setMessageForForm(response); // which will be an error message
-    };
+    const token = await JoblyApi.checkUserCredentials(username, password);
+      setToken(token);
   }
 
   /** */
   async function handleSignUp(userData) {
-    const response = await JoblyApi.registerUser(userData);
-    console.log(" response is ", response);
-
-    if (response.token !== undefined) {
-      setToken(response.token);
-    } else {
-      setMessageForForm(response); // which will be an error message
-    };
+    const token = await JoblyApi.registerUser(userData);
+    setToken(token);
   }
 
 
   useEffect(function updateUserDataOnTokenChange() {
-    console.log("in useEffect")
     async function updateUserData() {
       JoblyApi.token = token;
-      console.log("token in userdata useffect", token);
       const userResponse = await JoblyApi.getUserByToken(token);
-      console.log(" userResponse ", userResponse)
       setUserData(userResponse);
-
     }
     updateUserData();
   }, [token]);
@@ -80,13 +57,13 @@ function App() {
   return (
     <div className="App bg-image container-fluid min-vh-100">
       <BrowserRouter>
-        <Navigation />
         <UserContext.Provider value={userData}>
+          <Navigation />
           <Routes
             handleEdit={handleEdit}
             handleLogin={handleLogin}
             handleSignUp={handleSignUp}
-            messageForForm={messageForForm} />
+          />
         </UserContext.Provider>
       </BrowserRouter>
     </div>

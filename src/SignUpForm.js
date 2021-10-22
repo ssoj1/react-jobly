@@ -17,7 +17,7 @@ import { Redirect } from "react-router-dom";
  * Routes -> SignUpForm
  * 
  */
-function SignUpForm({ handleSignUp, messageForForm }) {
+function SignUpForm({ handleSignUp }) {
   const initialFormData={
     username:"",
     firstName:"",
@@ -26,9 +26,8 @@ function SignUpForm({ handleSignUp, messageForForm }) {
     password:""
   }
 
-
   const [formData, setFormData] = useState(initialFormData);
-  const [message, setMessage] = useState(messageForForm);
+  const [message, setMessage] = useState(null);
   const [redirectRequired, setRedirectRequired] = useState(false);
 
   console.log("* SignUpForm ", { handleSignUp, formData });
@@ -43,12 +42,15 @@ function SignUpForm({ handleSignUp, messageForForm }) {
   }
 
   /** Call parent function and clear form. */
-  function handleSubmit(evt) {
+  async function handleSubmit(evt) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
-    handleSignUp(formData);
-    setMessage(messageForForm);
-    setRedirectRequired(true);
+    try {
+        handleSignUp(formData);
+        setRedirectRequired(true);
+    } catch(err) {
+        setMessage(err);
+    };
   }
 
   return (
@@ -127,10 +129,7 @@ function SignUpForm({ handleSignUp, messageForForm }) {
               aria-label="Submit"
             />
           </div>
-          {message
-            ? <Alert message={message} />
-            : null
-          }
+          {message && <Alert message={message} />}
           <div>
             <button className="btn-primary rig btn btn-sm SignUpForm-Button">
               Submit
