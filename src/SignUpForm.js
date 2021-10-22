@@ -63,11 +63,6 @@ function SignUpForm({ handleSignUp }) {
 
     <div className="row justify-content-center pt-3">
       <h1>Sign Up</h1>
-      {
-        redirectRequired && <Redirect push to="/companies" />
-      }
-      {
-        !redirectRequired &&
         <form className="SignUpForm col-8" onSubmit={handleSubmit}>
 
           <div className="form-group">
@@ -141,9 +136,8 @@ function SignUpForm({ handleSignUp }) {
               Submit
             </button>
           </div>
-
         </form>
-      }
+
 
     </div>
   );

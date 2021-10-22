@@ -52,55 +52,51 @@ function LoginForm({ handleLogin }) {
     try {
       await handleLogin(formData.username, formData.password);
       setRedirectRequired(true);
-      console.log({redirectRequired})
+      console.log({ redirectRequired })
     } catch (err) {
+      console.log("in login form error",err)
       setMessage(err);
     };
   }
 
   return (
     <div className="row justify-content-center pt-3">
-      {
-        redirectRequired && <Redirect push to="/companies" />
-      }
-      {
-        !redirectRequired && <form className="LoginForm col-8" onSubmit={handleSubmit}>
+      <form className="LoginForm col-8" onSubmit={handleSubmit}>
 
-          <div className="form-group">
-            <label htmlFor="LoginForm-username">
-              Username
-            </label>
-            <input
-              id="LoginForm-username"
-              name="username"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.username}
-              aria-label="Username"
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="LoginForm-password">
-              Password
-            </label>
-            <input type="password"
-              id="LoginForm-password"
-              name="password"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.password}
-              aria-label="Password"
-            />
-          </div>
-          {message && <Alert message={message} />}
-          <div>
-            <button className="btn-primary rig btn btn-sm ProfileForm-Button">
-              Log In
-            </button>
-          </div>
+        <div className="form-group">
+          <label htmlFor="LoginForm-username">
+            Username
+          </label>
+          <input
+            id="LoginForm-username"
+            name="username"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.username}
+            aria-label="Username"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="LoginForm-password">
+            Password
+          </label>
+          <input type="password"
+            id="LoginForm-password"
+            name="password"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.password}
+            aria-label="Password"
+          />
+        </div>
+        {message && <Alert message={message} />}
+        <div>
+          <button className="btn-primary rig btn btn-sm ProfileForm-Button">
+            Log In
+          </button>
+        </div>
 
-        </form>
-      }
+      </form>
 
     </div>
   );

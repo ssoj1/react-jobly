@@ -26,8 +26,9 @@ function ProfileForm({ handleEdit }) {
     "password": "",
   });
   const [message, setMessage] = useState(null);
+  const [debug,setDebug]=useState(Math.random());
 
-  console.log("* ProfileForm ", { handleEdit, formData });
+  console.log("* ProfileForm ", { handleEdit, formData, message, debug });
 
   if (!userData) {
     return <Redirect to="/" />
@@ -47,9 +48,8 @@ function ProfileForm({ handleEdit }) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
     try {
-
       await handleEdit(formData);
-      setMessage("Updated successfully");
+      setMessage("Update Successful");
     } catch (err) {
       setMessage(err);
     };
@@ -126,7 +126,7 @@ function ProfileForm({ handleEdit }) {
             aria-label="Password"
           />
         </div>
-        {message && <Alert message={message} />}
+        {message && <Alert message={message}/>}
         <div>
           <button className="btn-primary rig btn btn-sm ProfileForm-Button">
             Save Changes

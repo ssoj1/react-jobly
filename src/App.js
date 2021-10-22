@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import JoblyApi from './api';
 import { useState, useEffect } from "react"
 import UserContext from './userContext';
+import { Redirect } from 'react-router-dom';
 
 /**
  * App component rendering navbar and routes
@@ -23,9 +24,16 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [token, setToken] = useState("");
   const [infoLoaded, setInfoLoaded] = useState(false);
-  
+  const [redirectRequired, setRedirectRequired] = useState(false);
+
   console.log("* App", { userData, token });
 
+
+  /** */
+  async function updateProfileData(){
+    const userResponse = await JoblyApi.getUserByToken(token);
+    setUserData(userResponse);
+  }
   /** Effect to update value of user data upon change of token
    * will run on login, signup, and data edit successes
    */
@@ -46,10 +54,11 @@ function App() {
    * userData. Returns message.
    */
   async function handleEdit(updatedProfileInfo) {
-    const token = await JoblyApi.checkUserCredentials(
-                updatedProfileInfo.username, updatedProfileInfo.password);
-    setToken(token);
+    const {username,password} = updatedProfileInfo
+    await JoblyApi.checkUserCredentials(username,password);
     const response = await JoblyApi.updateUser(updatedProfileInfo);
+    await updateProfileData();
+    setRedirectRequired(false);
     return response.user;
   }
 
@@ -60,7 +69,7 @@ function App() {
     const token = await JoblyApi.checkUserCredentials(username, password);
     console.log("about to set token")
     setToken(token);
-    
+    setRedirectRequired(true);
   }
 
   /** Sets token to be an empty string
@@ -68,6 +77,7 @@ function App() {
   */
   async function handleLogout() {
     setToken("");
+    setUserData(null);
   }
 
   /** Accepts userData for signup {username, firstname, lastname, email, password}, registers user
@@ -76,6 +86,7 @@ function App() {
   async function handleSignUp(userData) {
     const token = await JoblyApi.registerUser(userData);
     setToken(token);
+    setRedirectRequired(true);
   }
 
   if (!infoLoaded) {
@@ -85,15 +96,17 @@ function App() {
   return (
     <div className="App bg-image container-fluid min-vh-100">
       <BrowserRouter>
-        <UserContext.Provider value={userData}>
-          <Navigation handleLogout={handleLogout} />
-          <Routes
-            handleEdit={handleEdit}
-            handleLogin={handleLogin}
-            handleSignUp={handleSignUp}
-          />
+          <UserContext.Provider value={userData}>
+            <Navigation handleLogout={handleLogout} />
+             <Routes
+              handleEdit={handleEdit}
+              handleLogin={handleLogin}
+              handleSignUp={handleSignUp}
+            />
+
+        {redirectRequired && <Redirect push to="/companies" />}
         </UserContext.Provider>
-      </BrowserRouter>
+        </BrowserRouter>
     </div>
   );
 };

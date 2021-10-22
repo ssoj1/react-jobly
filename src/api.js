@@ -99,8 +99,9 @@ class JoblyApi {
       username,
       password
     };
-
+    console.log({credentials})
     const res = await this.request('auth/token', credentials, 'post');
+    console.log("res in check user credentials", res);
     return res.token;
   }
 
