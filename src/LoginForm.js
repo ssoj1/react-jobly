@@ -1,16 +1,27 @@
-import { useState, useContext } from "react";
-import UserContext from "./userContext";
+import { useState } from "react";
 import Alert from "./Alert";
 import { Redirect } from "react-router-dom";
 
-/**
+/**Form to handle login of user
+ * state: 
+ *  - formData: {username, pw}
+ *  - message: initially null
+ *  - redirect required: to companies page on login
+ * 
+ * props:
+ *  - handleLogin fxn: passed down from app
+ * 
+ * Context:
+ * -none
+ * 
+ * Routes => Login Form => Alert if error
  * 
  */
 
 function LoginForm({ handleLogin }) {
 
   const initialFormData = {
-    username: "", 
+    username: "",
     password: "",
   };
 
@@ -18,9 +29,14 @@ function LoginForm({ handleLogin }) {
   const [message, setMessage] = useState(null);
   const [redirectRequired, setRedirectRequired] = useState(false);
 
-  console.log("* LoginForm ", { handleLogin, formData });
+  console.log("* LoginForm ", {
+    handleLogin,
+    formData,
+    message,
+    redirectRequired
+  });
 
-  const userData = useContext(UserContext);
+  // const userData = useContext(UserContext);
 
 
   /** Update form input. */
@@ -39,7 +55,7 @@ function LoginForm({ handleLogin }) {
     try {
       await handleLogin(formData.username, formData.password);
       setRedirectRequired(true);
-    } catch(err) {
+    } catch (err) {
       setMessage(err);
     };
   }
@@ -47,15 +63,15 @@ function LoginForm({ handleLogin }) {
   return (
     <div className="row justify-content-center pt-3">
       {
-        redirectRequired && <Redirect push to="/" />
+        redirectRequired && <Redirect push to="/companies" />
       }
       {
         !redirectRequired && <form className="LoginForm col-8" onSubmit={handleSubmit}>
 
           <div className="form-group">
-          <label htmlFor="LoginForm-username">
-            Username
-          </label>
+            <label htmlFor="LoginForm-username">
+              Username
+            </label>
             <input
               id="LoginForm-username"
               name="username"
@@ -66,9 +82,9 @@ function LoginForm({ handleLogin }) {
             />
           </div>
           <div className="form-group">
-          <label htmlFor="LoginForm-password">
-            Password
-          </label>
+            <label htmlFor="LoginForm-password">
+              Password
+            </label>
             <input type="password"
               id="LoginForm-password"
               name="password"
@@ -78,7 +94,7 @@ function LoginForm({ handleLogin }) {
               aria-label="Password"
             />
           </div>
-          {message && <Alert message={message} /> }
+          {message && <Alert message={message} />}
           <div>
             <button className="btn-primary rig btn btn-sm ProfileForm-Button">
               Log In
@@ -87,8 +103,6 @@ function LoginForm({ handleLogin }) {
 
         </form>
       }
-
-
 
     </div>
   );

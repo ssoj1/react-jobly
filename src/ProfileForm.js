@@ -15,7 +15,7 @@ import { Redirect } from "react-router-dom";
  * Context: 
  * - userData - an object like { username, firstName, lastName, email, isAdmin}
  * 
- * Routes -> ProfileForm
+ * Routes -> ProfileForm -> Alert (on submit)
  * 
  */
  function ProfileForm( { handleEdit }){
@@ -47,6 +47,7 @@ import { Redirect } from "react-router-dom";
     evt.preventDefault();
     console.log("Check out state ->", formData);
     try {
+      
      await handleEdit(formData);
      setMessage("Updated successfully");
     } catch(err) {
@@ -114,7 +115,7 @@ import { Redirect } from "react-router-dom";
         </div>
         <div className="form-group">
         <label htmlFor="ProfileForm-password">
-            Password
+            Enter Password to Confirm
           </label>
           <input type="password"
               id="ProfileForm-password"
@@ -122,7 +123,7 @@ import { Redirect } from "react-router-dom";
               className="form-control"
               onChange={handleChange}
               value={formData.password}
-              aria-label="Confirm password to save changes:"
+              aria-label="Password"
           />
         </div>
         { message && <Alert message={message} /> }

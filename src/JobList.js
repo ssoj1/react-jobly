@@ -1,8 +1,8 @@
-import { useState, useContext,useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import JobCardList from "./JobCardList";
 import SearchForm from "./SearchForm";
 import JoblyApi from "./api";
-import {Redirect} from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import UserContext from "./userContext";
 
 /** Renders a list of jobs
@@ -16,11 +16,14 @@ import UserContext from "./userContext";
  * - jobs - an array of objects like: 
  * [{ job }, {job},...]
  * 
+ * Context:
+ * -none
+ * 
  * Routes -> JobList -> {SearchForm, JobCard}
  */
 function JobList() {
     const [isLoading, setIsLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState({ title: ""});
+    const [searchTerm, setSearchTerm] = useState({ title: "" });
     const [jobs, setJobs] = useState([]);
     const userData = useContext(UserContext);
     console.log("* JobList ", { isLoading, searchTerm, jobs });
@@ -42,20 +45,20 @@ function JobList() {
     }, [searchTerm]);
 
 
-    if(Object.keys(userData).length === 0){
-        return <Redirect to="/"/>
+    if (Object.keys(userData).length === 0) {
+        return <Redirect to="/" />
     }
 
     return (
         <div>
-            {<SearchForm 
-                updateSearchTerm={updateSearchTerm} 
+            {<SearchForm
+                updateSearchTerm={updateSearchTerm}
                 searchingBy="title" />
             }
             {
-                isLoading 
-                ? <i>Loading...</i>
-                : <JobCardList jobs={jobs}/>
+                isLoading
+                    ? <i>Loading...</i>
+                    : <JobCardList jobs={jobs} />
             }
         </div>
     );

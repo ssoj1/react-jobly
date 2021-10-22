@@ -9,18 +9,21 @@ import "./SearchForm.css";
  * State:
  * - formData: { searchCriteria }
  * 
+ * Context:
+ * -none
+ * 
  * { JobList, CompanyList } -> SearchForm
  */
-function SearchForm( { updateSearchTerm } ) {
-    const [formData, setFormData] = useState({ term: ""});
-    console.log("* SearchForm ", {updateSearchTerm, formData });
+function SearchForm({ updateSearchTerm }) {
+  const [formData, setFormData] = useState({ term: "" });
+  console.log("* SearchForm ", { updateSearchTerm, formData });
 
   /** Update form input. */
-  function handleChange(evt) { 
+  function handleChange(evt) {
     const { name, value } = evt.target;
     setFormData(fData => ({
-        ...fData,
-        [name]: value,
+      ...fData,
+      [name]: value,
     }));
   }
 
@@ -37,12 +40,12 @@ function SearchForm( { updateSearchTerm } ) {
 
         <div className="form-group">
           <input
-              id="SearchForm-term"
-              name="term"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.term}
-              aria-label="Search Term"
+            id="SearchForm-term"
+            name="term"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.term}
+            aria-label="Search Term"
           />
         </div>
         <div>

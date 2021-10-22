@@ -19,6 +19,10 @@ class JoblyApi {
     "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
     "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
+    /** bluerprint for making request 
+     * accepts endpoint for request, data, method(default to get)
+     * returns response wrapped in try/catch
+    */
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
 
@@ -40,14 +44,21 @@ class JoblyApi {
 
   // Individual API routes
 
-  /** Get details on a company by handle. */
+  /** Get details on a company by handle. 
+   * accepts company handle
+   * returns object of company data 
+   * throws error if not successful
+  */
 
   static async getCompany(handle) {
     let res = await this.request(`companies/${handle}`);
     return res.company;
   }
 
-  /** Get all companies, accepts search filters as a string */
+  /** Get all companies, accepts search filters as a string 
+   * returns array of comapny objects: [{company},{company}]
+   * throws error if not successful
+  */
 
   static async getCompanies(searchFilters) {
     console.log("searchFilters in companies is ", searchFilters);
@@ -61,7 +72,10 @@ class JoblyApi {
     return res.companies;
   }
 
-  /** Get all jobs, accepts search filters as a string */
+  /** Get all jobs, accepts search filters as a string 
+   * returns data on jobs array of obj: [{job},{job}]]
+   * throws error if not successful
+  */
 
   static async getJobs(searchFilters) {
     console.log("searchFilters in jobs is ", searchFilters);
@@ -75,7 +89,10 @@ class JoblyApi {
     return res.jobs;
   }
 
-  /** Accepts username and password as strings, returns token or error message */
+  /** Accepts username and password as strings, 
+   * returns token or error message 
+   * throws error if not successful
+   * */
 
   static async checkUserCredentials(username, password) {
     const credentials = {
@@ -87,26 +104,39 @@ class JoblyApi {
     return res.token;
   }
 
+  /** Updates user in DB based on input user data, 
+   * accepts obj of user data (comes directly from form submission)
+   * returns response of user data {user: { username, firstName, lastName, email, isAdmin }}
+   * throws error if not successful
+   * */
+
   static async updateUser(userData) {
 
-    const userDataWithoutAdmin = {
+    const userDataForUpdate = {
       firstName: userData.firstName,
       lastName: userData.lastName,
       email: userData.email,
-      password: userData.password
     }
 
     const res = await this.request(`users/${userData.username}`,
-      userDataWithoutAdmin, 'patch');
-      console.log("in updateUser res is ", res )
+      userDataForUpdate, 'patch');
+    console.log("in updateUser res is ", res)
 
     return res;
   }
 
+  /** Accepts token string and returns user data based on that token
+   * accepts token
+   * returns user data like: { username, firstName, lastName, email, isAdmin }
+   * returns null if token payload is null (on initial render)
+   * throws error if not successful
+   * */
   static async getUserByToken(token) {
+    console.log("token in get user by token", token)
     const payload = jwt.decode(token);
+    console.log("payload in getuserbytoken", payload)
 
-    if (payload === null ) {
+    if (payload === null) {
       return null;
     } else {
       const res = await this.request(`users/${payload.username}`);
@@ -114,21 +144,18 @@ class JoblyApi {
     };
   }
 
-  /**  */
+  /** Registers user into database
+   * accepts userdata {username, password}
+   * returns token string on successful registration
+   * throws error if not successful
+   * */
   static async registerUser(userData) {
     console.log("userData ", userData)
-    
+
     const res = await this.request(`auth/register`, userData, 'post');
-    return res;
+    return res.token;
 
   }
-
-  /** Get details on an individual user by username*/
-
-  // static async getUser(username) {
-  //   let res = await this.request(`users/${username}`);
-  //   return res.user;
-  // }
 }
 
 export default JoblyApi;

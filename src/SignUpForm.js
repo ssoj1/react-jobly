@@ -10,27 +10,33 @@ import { Redirect } from "react-router-dom";
  * State: 
  * - formData
  * - message - success or failure message on submit
+ * - redirectRequired --> T/F
  * 
  * Context: 
  * - none
  * 
- * Routes -> SignUpForm
+ * Routes -> SignUpForm -> Alert on error
  * 
  */
 function SignUpForm({ handleSignUp }) {
-  const initialFormData={
-    username:"",
-    firstName:"",
-    lastName:"",
-    email:"",
-    password:""
+  const initialFormData = {
+    username: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: ""
   }
 
   const [formData, setFormData] = useState(initialFormData);
   const [message, setMessage] = useState(null);
   const [redirectRequired, setRedirectRequired] = useState(false);
 
-  console.log("* SignUpForm ", { handleSignUp, formData });
+  console.log("* SignUpForm ", {
+    handleSignUp,
+    formData,
+    message,
+    redirectRequired
+  });
 
   /** Update form input. */
   function handleChange(evt) {
@@ -46,10 +52,10 @@ function SignUpForm({ handleSignUp }) {
     evt.preventDefault();
     console.log("Check out state ->", formData);
     try {
-        handleSignUp(formData);
-        setRedirectRequired(true);
-    } catch(err) {
-        setMessage(err);
+      await handleSignUp(formData);
+      setRedirectRequired(true);
+    } catch (err) {
+      setMessage(err);
     };
   }
 
@@ -58,12 +64,12 @@ function SignUpForm({ handleSignUp }) {
     <div className="row justify-content-center pt-3">
       <h1>Sign Up</h1>
       {
-        redirectRequired && <Redirect push to="/" />
+        redirectRequired && <Redirect push to="/companies" />
       }
       {
         !redirectRequired &&
         <form className="SignUpForm col-8" onSubmit={handleSubmit}>
-  
+
           <div className="form-group">
             <label htmlFor="SignUpForm-username">
               Username
@@ -135,10 +141,10 @@ function SignUpForm({ handleSignUp }) {
               Submit
             </button>
           </div>
-  
+
         </form>
       }
-  
+
     </div>
   );
 }

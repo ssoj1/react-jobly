@@ -8,9 +8,12 @@ import "./Homepage.css";
  * State: 
  * - none
  * 
+ * Context:
+ * -none
+ * 
  * Routes -> Homepage 
  */
- function Homepage(){
+function Homepage() {
     console.log("* Homepage");
 
     return (
