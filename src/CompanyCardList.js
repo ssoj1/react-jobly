@@ -10,20 +10,20 @@ import CompanyCard from "./CompanyCard";
  * 
  * {CompanyList} -> CompanyCardList -> CompanyCard
  */
- function CompanyCardList({companies}){
-    console.log("* CompanyCardList", {companies});
+function CompanyCardList({ companies }) {
+    console.log("* CompanyCardList", { companies });
 
     return (
-    <div className="CompanyCardList">
-        {
-            companies.length === 0
-            ? <p>No results found.</p>
-            : companies.map(company => <CompanyCard 
-                key={company.handle} 
-                company={company}
-            />)
-        }
-    </div>
+        <div className="CompanyCardList">
+            {
+                companies.length === 0
+                    ? <p>No results found.</p>
+                    : companies.map(company => <CompanyCard
+                        key={company.handle}
+                        company={company}
+                    />)
+            }
+        </div>
     );
 };
 

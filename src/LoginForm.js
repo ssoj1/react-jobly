@@ -36,9 +36,6 @@ function LoginForm({ handleLogin }) {
     redirectRequired
   });
 
-  // const userData = useContext(UserContext);
-
-
   /** Update form input. */
   function handleChange(evt) {
     const { name, value } = evt.target;
@@ -51,10 +48,11 @@ function LoginForm({ handleLogin }) {
   /** Call parent function and clear form. */
   async function handleSubmit(evt) {
     evt.preventDefault();
-    console.log("Check out state ->", formData);
+    console.log("Check out state in Login Form ->", formData);
     try {
       await handleLogin(formData.username, formData.password);
       setRedirectRequired(true);
+      console.log({redirectRequired})
     } catch (err) {
       setMessage(err);
     };

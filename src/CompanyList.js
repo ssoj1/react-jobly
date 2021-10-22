@@ -15,41 +15,50 @@ import UserContext from "./userContext";
  * - searchTerm
  * - companies ([]) => ([{company}, {company}, ...])
  * 
+ * Context: 
+ * - userDataP
+ * 
  * Routes -> CompanyList -> {CompanyCard, SearchForm}
  */
- function CompanyList(){
-    const[isLoading,setIsLoading] = useState(true);
-    const[searchTerm,setSearchTerm] = useState({});
-    const[companies,setCompanies] = useState([]);
-    console.log("* CompanyList ", { isLoading, searchTerm, companies });
+function CompanyList() {
+    const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState({ name: "" });
+    const [companies, setCompanies] = useState([]);
     const userData = useContext(UserContext);
 
+    console.log("* CompanyList ", { isLoading, searchTerm, companies });
+
     /** Updates searchTerm based on form submission */
-    function updateSearchTerm( searchTerm ){
+    function updateSearchTerm(searchTerm) {
         setSearchTerm(searchTerm);
         setIsLoading(true);
     };
 
-    useEffect(function fetchCompaniesWhenMounted(){
-        async function fetchCompanies(){
+    useEffect(function fetchCompaniesWhenMounted() {
+        async function fetchCompanies() {
             const companiesResult = await JoblyApi.getCompanies(searchTerm.term);
-            console.log({companiesResult})
+            console.log({ companiesResult })
             setCompanies(companiesResult);
             setIsLoading(false);
         }
         fetchCompanies();
-    },[searchTerm]);
+    }, [searchTerm]);
 
-    if(Object.keys(userData).length === 0){
-        return <Redirect to="/"/>
-    }
+    console.log("user data in CompanyList is ", userData)
 
-    if (isLoading) return <i>Loading...</i>; 
+    if (!userData) {
+        return <Redirect to="/" />
+    };
 
     return (
         <div>
-            {<SearchForm updateSearchTerm={updateSearchTerm} searchingBy="name" />}
-            {<CompanyCardList companies={companies}/>}
+            {<SearchForm updateSearchTerm={updateSearchTerm} />}
+            {
+                isLoading
+                    ? <i>Loading...</i>
+                    : <CompanyCardList companies={companies} />
+            }
+
         </div>
     );
 

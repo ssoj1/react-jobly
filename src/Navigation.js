@@ -6,7 +6,7 @@ import { useContext } from "react";
 /** Component for navigating
  *
  * Props:
- * - none
+ * - handleLogout = function run on parent
  *
  * State:
  * - none
@@ -17,10 +17,14 @@ import { useContext } from "react";
  *
  * App -> Navigation -> NavLink
  */
-function Navigation() {
+function Navigation({ handleLogout }) {
   console.log("* Navigation");
 
   const userData = useContext(UserContext);
+
+  // function handleClick(){
+  //   handleLogout();
+  // }
 
   return (
     <div className="row">
@@ -48,8 +52,8 @@ function Navigation() {
             </NavLink>
           </div>
           <div className="p-2">
-            <button className="btn-link">
-              {`Logout ${userData.username}`}
+            <button className="btn-link" onClick={handleLogout}>
+              {`Logout ${userData.firstName}`}
             </button>
           </div>
         </nav>

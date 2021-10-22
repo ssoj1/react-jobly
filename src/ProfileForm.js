@@ -18,27 +18,27 @@ import { Redirect } from "react-router-dom";
  * Routes -> ProfileForm -> Alert (on submit)
  * 
  */
- function ProfileForm( { handleEdit }){
-   const userData = useContext(UserContext);
-   
-   const [formData, setFormData] = useState({
+function ProfileForm({ handleEdit }) {
+  const userData = useContext(UserContext);
+
+  const [formData, setFormData] = useState({
     ...userData,
     "password": "",
-});
-   const [message, setMessage] = useState(null);
-   
-   console.log("* ProfileForm ", { handleEdit, formData });
+  });
+  const [message, setMessage] = useState(null);
 
-  if(userData.username === undefined){
-    return <Redirect to="/"/>
+  console.log("* ProfileForm ", { handleEdit, formData });
+
+  if (!userData) {
+    return <Redirect to="/" />
   };
 
   /** Update form input. */
-  function handleChange(evt) { 
+  function handleChange(evt) {
     const { name, value } = evt.target;
     setFormData(fData => ({
-        ...fData,
-        [name]: value,
+      ...fData,
+      [name]: value,
     }));
   }
 
@@ -47,10 +47,10 @@ import { Redirect } from "react-router-dom";
     evt.preventDefault();
     console.log("Check out state ->", formData);
     try {
-      
-     await handleEdit(formData);
-     setMessage("Updated successfully");
-    } catch(err) {
+
+      await handleEdit(formData);
+      setMessage("Updated successfully");
+    } catch (err) {
       setMessage(err);
     };
   }
@@ -61,72 +61,72 @@ import { Redirect } from "react-router-dom";
       <form className="ProfileForm col-8" onSubmit={handleSubmit}>
 
         <div className="form-group">
-        <label htmlFor="ProfileForm-username">
+          <label htmlFor="ProfileForm-username">
             Username
           </label>
           <input
-              id="ProfileForm-username"
-              name="username"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.username}
-              aria-label="Username"
-              disabled
+            id="ProfileForm-username"
+            name="username"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.username}
+            aria-label="Username"
+            disabled
           />
         </div>
         <div className="form-group">
-        <label htmlFor="ProfileForm-firstName">
+          <label htmlFor="ProfileForm-firstName">
             First Name
           </label>
           <input
-              id="ProfileForm-firstName"
-              name="firstName"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.firstName}
-              aria-label="First Name"
+            id="ProfileForm-firstName"
+            name="firstName"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.firstName}
+            aria-label="First Name"
           />
         </div>
         <div className="form-group">
-        <label htmlFor="ProfileForm-lastName">
+          <label htmlFor="ProfileForm-lastName">
             Last Name
           </label>
           <input
-              id="ProfileForm-lastName"
-              name="lastName"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.lastName}
-              aria-label="Last Name"
+            id="ProfileForm-lastName"
+            name="lastName"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.lastName}
+            aria-label="Last Name"
           />
         </div>
         <div className="form-group">
-        <label htmlFor="ProfileForm-email">
+          <label htmlFor="ProfileForm-email">
             Email
           </label>
           <input
-              id="ProfileForm-email"
-              name="email"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.email}
-              aria-label="Email"
+            id="ProfileForm-email"
+            name="email"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.email}
+            aria-label="Email"
           />
         </div>
         <div className="form-group">
-        <label htmlFor="ProfileForm-password">
+          <label htmlFor="ProfileForm-password">
             Enter Password to Confirm
           </label>
           <input type="password"
-              id="ProfileForm-password"
-              name="password"
-              className="form-control"
-              onChange={handleChange}
-              value={formData.password}
-              aria-label="Password"
+            id="ProfileForm-password"
+            name="password"
+            className="form-control"
+            onChange={handleChange}
+            value={formData.password}
+            aria-label="Password"
           />
         </div>
-        { message && <Alert message={message} /> }
+        {message && <Alert message={message} />}
         <div>
           <button className="btn-primary rig btn btn-sm ProfileForm-Button">
             Save Changes

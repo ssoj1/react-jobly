@@ -26,6 +26,7 @@ function JobList() {
     const [searchTerm, setSearchTerm] = useState({ title: "" });
     const [jobs, setJobs] = useState([]);
     const userData = useContext(UserContext);
+
     console.log("* JobList ", { isLoading, searchTerm, jobs });
 
     /** Updates searchTerm based on form submission */
@@ -45,9 +46,9 @@ function JobList() {
     }, [searchTerm]);
 
 
-    if (Object.keys(userData).length === 0) {
+    if (!userData) {
         return <Redirect to="/" />
-    }
+    };
 
     return (
         <div>

@@ -15,17 +15,17 @@ import UserContext from "./userContext";
  * 
  * Routes -> CompanyDetails -> JobCardList
  */
-function CompanyDetails(){
+function CompanyDetails() {
 
 
-    const [ isLoading, setIsLoading] = useState(true);
-    const [ company, setCompany ] = useState({});
+    const [isLoading, setIsLoading] = useState(true);
+    const [company, setCompany] = useState({});
     console.log("* ComanyDetails");
     const { handle } = useParams();
     const userData = useContext(UserContext);
-    
-    useEffect(function fetchCompanyWhenMounted(){
-        async function fetchCompany(){
+
+    useEffect(function fetchCompanyWhenMounted() {
+        async function fetchCompany() {
             const companyResult = await JoblyApi.getCompany(handle);
             setCompany(companyResult);
             setIsLoading(false);
@@ -34,17 +34,17 @@ function CompanyDetails(){
     }, [handle]);
 
 
-    if(Object.keys(userData).length === 0){
-        return <Redirect to="/"/>
+    if (!userData) {
+        return <Redirect to="/" />
     }
 
-    if (isLoading) return <i>Loading...</i>; 
+    if (isLoading) return <i>Loading...</i>;
 
     return (
         <div className="CompanyDetails">
             <h2>{company.name}</h2>
             <p>{company.description}</p>
-            <JobCardList jobs={company.jobs}/>
+            <JobCardList jobs={company.jobs} />
         </div>
     );
 }

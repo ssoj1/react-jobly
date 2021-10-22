@@ -15,66 +15,78 @@ import UserContext from './userContext';
  * State: 
  * - userData
  * - token
+ * - isLoading - boolean
  * 
  * App => {Navigation, Routes}
  */
 function App() {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [token, setToken] = useState("");
-
-  console.log("* App",{userData, token});
-
-  /** Accepts ProfileForm data, validates password. If valid updates
-   * userData. Returns message.
-   */
-  async function handleEdit(updatedProfileInfo) {
-    const token = await JoblyApi.checkUserCredentials(updatedProfileInfo.username,updatedProfileInfo.password);
-    setToken(token);
-    const response = await JoblyApi.updateUser(updatedProfileInfo);
-    return response.user;
-  }
-
-   /** Accepts username and password, logs user in
-   * sets token to received token on successful login
-   */
-  async function handleLogin(username, password) {
-    const token = await JoblyApi.checkUserCredentials(username, password);
-      setToken(token);
-  }
-
-    /** Accepts userData for signup {username, firstname, lastname, email, password}, registers user
-   * sets token to received token on successful login
-   */
-  async function handleSignUp(userData) {
-    const token = await JoblyApi.registerUser(userData);
-    setToken(token);
-    // console.log("token in handleSignup", token)
-  }
-
+  const [infoLoaded, setInfoLoaded] = useState(false);
+  
+  console.log("* App", { userData, token });
 
   /** Effect to update value of user data upon change of token
    * will run on login, signup, and data edit successes
    */
   useEffect(function updateUserDataOnTokenChange() {
     async function updateUserData() {
-      // console.log("token in updateUser", token);
-      JoblyApi.token = token;
-      // console.log("make it to joblyAPI call", JoblyApi.token)
-      const userResponse = await JoblyApi.getUserByToken(token);
-      setUserData(userResponse);
-      // console.log("response in updateUser", userResponse)
-
+      if (token) {
+        JoblyApi.token = token;
+        const userResponse = await JoblyApi.getUserByToken(token);
+        setUserData(userResponse);
+      };
+      setInfoLoaded(true);
     }
+    setInfoLoaded(false);
     updateUserData();
   }, [token]);
 
+  /** Accepts ProfileForm data, validates password. If valid updates
+   * userData. Returns message.
+   */
+  async function handleEdit(updatedProfileInfo) {
+    const token = await JoblyApi.checkUserCredentials(
+                updatedProfileInfo.username, updatedProfileInfo.password);
+    setToken(token);
+    const response = await JoblyApi.updateUser(updatedProfileInfo);
+    return response.user;
+  }
 
+  /** Accepts username and password, logs user in
+  * sets token to received token on successful login
+  */
+  async function handleLogin(username, password) {
+    const token = await JoblyApi.checkUserCredentials(username, password);
+    console.log("about to set token")
+    setToken(token);
+    
+  }
+
+  /** Sets token to be an empty string
+   * 
+  */
+  async function handleLogout() {
+    setToken("");
+  }
+
+  /** Accepts userData for signup {username, firstname, lastname, email, password}, registers user
+ * sets token to received token on successful login
+ */
+  async function handleSignUp(userData) {
+    const token = await JoblyApi.registerUser(userData);
+    setToken(token);
+  }
+
+  if (!infoLoaded) {
+    return <i>Loading...</i>
+  };
 
   return (
     <div className="App bg-image container-fluid min-vh-100">
       <BrowserRouter>
         <UserContext.Provider value={userData}>
-          <Navigation />
+          <Navigation handleLogout={handleLogout} />
           <Routes
             handleEdit={handleEdit}
             handleLogin={handleLogin}

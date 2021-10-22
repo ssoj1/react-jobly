@@ -2,7 +2,7 @@
  * Simple alert component
  * 
  */
-function Alert( { message }){
+function Alert({ message }) {
     return <div className="Alert">{message}</div>
 }
 
