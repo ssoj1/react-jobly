@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Navigation.css";
 import UserContext from "./userContext";
 import { useContext } from "react";
@@ -22,63 +22,59 @@ function Navigation({ handleLogout }) {
 
   const userData = useContext(UserContext);
 
-  // function handleClick(){
-  //   handleLogout();
-  // }
+  function loggedInNav() {
+    return (
+      <ul className="navbar-nav ms-auto">
+        <li className="nav-item me-4">
+          <NavLink className="nav-link" to="/companies">
+            Companies
+          </NavLink>
+        </li>
+        <li className="nav-item me-4">
+          <NavLink className="nav-link" to="/jobs">
+            Jobs
+          </NavLink>
+        </li>
+        <li className="nav-item me-4">
+          <NavLink className="nav-link" to="/profile">
+            Profile
+          </NavLink>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/" onClick={handleLogout}>
+            Log out {userData.first_name || userData.username}
+          </Link>
+        </li>
+      </ul>
+    );
+  }
+
+  function loggedOutNav() {
+    return (
+      <ul className="navbar-nav ms-auto">
+        <li className="nav-item me-4">
+          <NavLink className="nav-link" to="/login">
+            Login
+          </NavLink>
+        </li>
+        <li className="nav-item me-4">
+          <NavLink className="nav-link" to="/signup">
+            Sign Up
+          </NavLink>
+        </li>
+      </ul>
+    );
+  }
 
   return (
-    <div className="row">
-      {
-        userData &&
-        <nav className="Navigation bg-primary d-flex">
-          <div className="mr-auto p-2">
-            <NavLink exact to="/" >
-              Jobly
-            </NavLink>
-          </div>
-          <div className="p-2">
-            <NavLink exact to="/companies" >
-              Companies
-            </NavLink>
-          </div>
-          <div className="p-2">
-            <NavLink exact to="/jobs" >
-              Jobs
-            </NavLink>
-          </div>
-          <div className="p-2">
-            <NavLink exact to="/profile" >
-              Profile
-            </NavLink>
-          </div>
-          <div className="p-2">
-            <button className="btn-link" onClick={handleLogout}>
-              {`Logout ${userData.firstName}`}
-            </button>
-          </div>
-        </nav>
-      }
-      {
-        !userData &&
-        <nav className="Navigation bg-primary d-flex">
-          <div className="mr-auto p-2">
-            <NavLink exact to="/" >
-              Jobly
-            </NavLink>
-          </div>
-          <div className="p-2">
-            <NavLink exact to="/login" >
-              Log In
-            </NavLink>
-          </div>
-          <div className="p-2">
-            <NavLink exact to="/signup" >
-              Sign Up
-            </NavLink>
-          </div>
-        </nav>
-      }
-    </div>
+    <nav className="Navigation navbar navbar-expand-md">
+      <div className="container-fluid">
+        <Link className="navbar-brand" to="/">
+          Jobly
+        </Link>
+        {userData ? loggedInNav() : loggedOutNav()}
+      </div>
+    </nav>
   );
 }
 
