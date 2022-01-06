@@ -10,6 +10,6 @@ To start server:
 
     npm start
     
-To run the tests:
+With more time I will:
 
-    npm test
+    add tests
